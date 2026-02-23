@@ -1,0 +1,275 @@
+{
+  "name": "newIdea",
+  "path": "/home/shreyas/WEB DEVELOPMENT/Projects/newIdea",
+  "type": "directory",
+  "children": [
+    {
+      "name": "backend",
+      "type": "folder",
+      "icon": "📁",
+      "children": [
+        {
+          "name": "src",
+          "type": "folder",
+          "icon": "📁",
+          "children": [
+            {
+              "name": "config",
+              "type": "folder",
+              "icon": "📁",
+              "children": [
+                {
+                  "name": "db.js",
+                  "type": "file",
+                  "icon": "📜"
+                }
+              ]
+            },
+            {
+              "name": "controllers",
+              "type": "folder",
+              "icon": "📁",
+              "children": [
+                {
+                  "name": "auth.controller.js",
+                  "type": "file",
+                  "icon": "📜"
+                }
+              ]
+            },
+            {
+              "name": "middleware",
+              "type": "folder",
+              "icon": "📁",
+              "children": [
+                {
+                  "name": "auth.middleware.js",
+                  "type": "file",
+                  "icon": "📜"
+                }
+              ]
+            },
+            {
+              "name": "routes",
+              "type": "folder",
+              "icon": "📁",
+              "children": [
+                {
+                  "name": "auth.routes.js",
+                  "type": "file",
+                  "icon": "📜"
+                },
+                {
+                  "name": "github.routes.js",
+                  "type": "file",
+                  "icon": "📜"
+                }
+              ]
+            },
+            {
+              "name": "services",
+              "type": "folder",
+              "icon": "📁",
+              "children": [
+                {
+                  "name": "auth.services.js",
+                  "type": "file",
+                  "icon": "📜"
+                }
+              ]
+            },
+            {
+              "name": "app.js",
+              "type": "file",
+              "icon": "📜"
+            },
+            {
+              "name": "server.js",
+              "type": "file",
+              "icon": "📜"
+            }
+          ]
+        },
+        {
+          "name": "package-lock.json",
+          "type": "file",
+          "icon": "⚙️"
+        },
+        {
+          "name": "package.json",
+          "type": "file",
+          "icon": "📦"
+        }
+      ]
+    },
+    {
+      "name": "my-app",
+      "type": "folder",
+      "icon": "📁",
+      "children": [
+        {
+          "name": "public",
+          "type": "folder",
+          "icon": "📁",
+          "children": [
+            {
+              "name": "vite.svg",
+              "type": "file",
+              "icon": "🖼️"
+            }
+          ]
+        },
+        {
+          "name": "src",
+          "type": "folder",
+          "icon": "📁",
+          "children": [
+            {
+              "name": "assets",
+              "type": "folder",
+              "icon": "📁",
+              "children": [
+                {
+                  "name": "react.svg",
+                  "type": "file",
+                  "icon": "🖼️"
+                }
+              ]
+            },
+            {
+              "name": "components",
+              "type": "folder",
+              "icon": "📁",
+              "children": [
+                {
+                  "name": "Navbar.tsx",
+                  "type": "file",
+                  "icon": "⚛️"
+                }
+              ]
+            },
+            {
+              "name": "pages",
+              "type": "folder",
+              "icon": "📁",
+              "children": [
+                {
+                  "name": "Dashboard.tsx",
+                  "type": "file",
+                  "icon": "⚛️"
+                },
+                {
+                  "name": "Deploy.tsx",
+                  "type": "file",
+                  "icon": "⚛️"
+                },
+                {
+                  "name": "Home.tsx",
+                  "type": "file",
+                  "icon": "⚛️"
+                },
+                {
+                  "name": "Login.tsx",
+                  "type": "file",
+                  "icon": "⚛️"
+                },
+                {
+                  "name": "Signup.tsx",
+                  "type": "file",
+                  "icon": "⚛️"
+                }
+              ]
+            },
+            {
+              "name": "App.css",
+              "type": "file",
+              "icon": "🎨"
+            },
+            {
+              "name": "App.tsx",
+              "type": "file",
+              "icon": "⚛️"
+            },
+            {
+              "name": "index.css",
+              "type": "file",
+              "icon": "🎨"
+            },
+            {
+              "name": "main.tsx",
+              "type": "file",
+              "icon": "⚛️"
+            }
+          ]
+        },
+        {
+          "name": ".gitignore",
+          "type": "file",
+          "icon": "📁"
+        },
+        {
+          "name": "README.md",
+          "type": "file",
+          "icon": "📝"
+        },
+        {
+          "name": "eslint.config.js",
+          "type": "file",
+          "icon": "📜"
+        },
+        {
+          "name": "index.html",
+          "type": "file",
+          "icon": "🌐"
+        },
+        {
+          "name": "package-lock.json",
+          "type": "file",
+          "icon": "⚙️"
+        },
+        {
+          "name": "package.json",
+          "type": "file",
+          "icon": "📦"
+        },
+        {
+          "name": "tsconfig.app.json",
+          "type": "file",
+          "icon": "⚙️"
+        },
+        {
+          "name": "tsconfig.json",
+          "type": "file",
+          "icon": "⚙️"
+        },
+        {
+          "name": "tsconfig.node.json",
+          "type": "file",
+          "icon": "⚙️"
+        },
+        {
+          "name": "vite.config.ts",
+          "type": "file",
+          "icon": "📘"
+        }
+      ]
+    },
+    {
+      "name": ".gitignore",
+      "type": "file",
+      "icon": "📁"
+    },
+    {
+      "name": "Untitled-1.json",
+      "type": "file",
+      "icon": "⚙️"
+    }
+  ],
+  "metadata": {
+    "generated": "2026-02-23T22:23:01.836Z",
+    "generator": "FileTree Pro Extension",
+    "version": "0.2.0",
+    "showIcons": true,
+    "maxDepth": 10
+  }
+}
