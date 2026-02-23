@@ -24,7 +24,7 @@ router.get("/callback", async (req, res) => {
         delete userState[state];
     }
     if (!code) {
-        return res.status(400).json({ error: "no code provided" });
+        return res.redirect("http://localhost:5173/login");
     }
     try {
         const fulltoken = await fetch("https://github.com/login/oauth/access_token", {

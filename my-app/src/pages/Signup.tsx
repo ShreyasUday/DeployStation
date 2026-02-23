@@ -1,21 +1,50 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 export default function Signup() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const { login } = useAuth();
+  const navigate = useNavigate();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // You'll connect this to your backend
-    console.log("Signup:", { name, email, password });
+    setError("");
+
+    try {
+      const response = await fetch("http://localhost:3000/api/auth/signup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({ name, email, password }),
+      });
+
+      if (response.ok) {
+        login();
+        navigate("/dashboard");
+      } else {
+        const data = await response.json();
+        setError(data.message || "Signup failed");
+      }
+    } catch (err) {
+      setError("An error occurred. Please try again.");
+      console.error("Signup error:", err);
+    }
   };
 
   return (
     <div className="container" style={{ maxWidth: "400px", paddingTop: "60px" }}>
       <h1 className="page-title">Create account</h1>
       <p className="page-subtitle">Start deploying your projects today</p>
+
+      {error && (
+        <div style={{ color: "var(--accent)", marginBottom: "16px", fontSize: "0.9rem", textAlign: "center" }}>
+          {error}
+        </div>
+      )}
 
       <form onSubmit={handleSubmit} className="card">
         <div className="input-group">
