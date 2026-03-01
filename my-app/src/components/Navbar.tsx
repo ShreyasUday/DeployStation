@@ -2,20 +2,12 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
 export default function Navbar() {
-  const { isLoggedIn, logout } = useAuth();
+  const { isAuthenticated, logout } = useAuth();
   const navigate = useNavigate();
 
   const handleLogout = async () => {
-    try {
-      await fetch("http://localhost:3000/api/auth/logout", {
-        method: "POST",
-        credentials: "include",
-      });
-      logout();
-      navigate("/login");
-    } catch (error) {
-      console.error("Logout failed:", error);
-    }
+    await logout();
+    navigate("/login");
   };
 
   return (
@@ -24,7 +16,7 @@ export default function Navbar() {
         DeployStation
       </Link>
       <div className="navbar-links">
-        {isLoggedIn ? (
+        {isAuthenticated ? (
           <>
             <Link to="/dashboard">Dashboard</Link>
             <Link to="/deploy">Deploy</Link>

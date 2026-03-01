@@ -42,11 +42,7 @@ router.get("/callback", async (req, res) => {
         const tokendata = await fulltoken.json();
         const accessToken = tokendata.access_token;
         // if(!accessToken)
-
-        if (userId) {
-            await pool.query("update users set github_token = $1 where id = $2", [accessToken, userId]);
-            return res.redirect("http://localhost:5173")
-        }
+        
         const userRes = await fetch("https://api.github.com/user", {
             headers: {
                 Authorization: `Bearer ${accessToken}`
@@ -54,7 +50,21 @@ router.get("/callback", async (req, res) => {
         })
         const githubUser = await userRes.json();
         const githubUserId = githubUser.id;
+        const githubEmail = githubUser.email;
         const githubUsername = githubUser.login;
+        if (userId) {
+
+            const existingGithubUser = await pool.query(
+                "select id from users where github_id = $1", [githubUserId]
+            )
+
+            if (existingGithubUser.rows.length > 0 && existingGithubUser.rows[0].id !== userId) {
+                return res.redirect("http://localhost:5173/dashboard?error=github-linked");
+            }
+
+            await pool.query("update users set github_token = $1, github_id = $2 where id = $3", [accessToken, githubUserId, userId]);
+            return res.redirect("http://localhost:5173/dashboard")
+        }
         const existing = await pool.query("select * from users where github_id = $1", [githubUserId]);
 
         if (existing.rows.length > 0) {
@@ -74,11 +84,11 @@ router.get("/callback", async (req, res) => {
                 secure: false, // true in production (https)
                 sameSite: "lax"
             });
-            return res.redirect("http://localhost:5173")
+            return res.redirect("http://localhost:5173/dashboard")
         }
         else {
-            const newUser = await pool.query("insert into users (name, github_id, github_token, password) values ($1, $2, $3, $4) returning *",
-                [githubUsername, githubUserId, accessToken, null]);
+            const newUser = await pool.query("insert into users (name, email, github_id, github_token, password) values ($1, $2, $3, $4, $5) returning *",
+                [githubUsername, githubEmail, githubUserId, accessToken, null]);
             const user = newUser.rows[0];
             const token = jwt.sign(
                 { userId: user.id },
@@ -90,7 +100,7 @@ router.get("/callback", async (req, res) => {
                 secure: false, // true in production (https)
                 sameSite: "lax"
             });
-            return res.redirect("http://localhost:5173")
+            return res.redirect("http://localhost:5173/dashboard")
         }
 
     } catch (error) {

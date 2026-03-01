@@ -3,7 +3,7 @@ Run these in order:
 CREATE TABLE users (
     id SERIAL PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
-    email VARCHAR(150) UNIQUE,
+    email VARCHAR(150) UNIQUE,;
     password TEXT,
     github_id BIGINT UNIQUE,
     github_token TEXT,

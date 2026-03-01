@@ -5,21 +5,23 @@ import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Dashboard from "./pages/Dashboard";
 import Deploy from "./pages/Deploy";
-import { AuthProvider } from "./context/AuthContext";
+import ProtectedRoute from "./components/ProtectedRoute";
 import "./App.css";
 
 function App() {
+
+
   return (
-    <AuthProvider>
+    <>
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/deploy" element={<Deploy />} />
+        <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+        <Route path="/deploy" element={<ProtectedRoute><Deploy /></ProtectedRoute>} />
       </Routes>
-    </AuthProvider>
+    </>
   );
 }
 

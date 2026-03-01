@@ -1,15 +1,18 @@
 import { Link } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 export default function Home() {
+  const { isAuthenticated } = useAuth();
+
   return (
     <div className="home">
       <section className="hero">
         <h1>Deploy your frontend in minutes</h1>
         <p>
-          Upload your React, Vue, or static site. We handle the rest. 
+          Upload your React, Vue, or static site. We handle the rest.
           No servers, no configs — just deploy and go.
         </p>
-        <Link to="/signup" className="btn-primary" style={{ fontSize: "1.1rem", padding: "14px 28px" }}>
+        <Link to={isAuthenticated ? "/dashboard" : "/signup"} className="btn-primary" style={{ fontSize: "1.1rem", padding: "14px 28px" }}>
           Get Started
         </Link>
       </section>

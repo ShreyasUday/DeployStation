@@ -7,7 +7,7 @@ export default function Signup() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  const { login } = useAuth();
+  const { signup } = useAuth();
   const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -15,22 +15,10 @@ export default function Signup() {
     setError("");
 
     try {
-      const response = await fetch("http://localhost:3000/api/auth/signup", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include",
-        body: JSON.stringify({ name, email, password }),
-      });
-
-      if (response.ok) {
-        login();
-        navigate("/dashboard");
-      } else {
-        const data = await response.json();
-        setError(data.message || "Signup failed");
-      }
-    } catch (err) {
-      setError("An error occurred. Please try again.");
+      await signup(name, email, password);
+      navigate("/dashboard");
+    } catch (err: any) {
+      setError(err.message || "An error occurred. Please try again.");
       console.error("Signup error:", err);
     }
   };

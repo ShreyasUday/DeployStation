@@ -48,3 +48,9 @@ export async function loginuser({ email, password }) {
 
     return token;
 }
+export async function userGetMe(user){
+    const result = await pool.query(
+        "select id, name, email, github_id, github_token from users where id = $1",[user.userId]
+    )
+    return result;
+}

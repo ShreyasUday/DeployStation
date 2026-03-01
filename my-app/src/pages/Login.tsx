@@ -14,22 +14,10 @@ export default function Login() {
     setError("");
 
     try {
-      const response = await fetch("http://localhost:3000/api/auth/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include",
-        body: JSON.stringify({ email, password }),
-      });
-
-      if (response.ok) {
-        login();
-        navigate("/dashboard");
-      } else {
-        const data = await response.json();
-        setError(data.message || "Login failed");
-      }
-    } catch (err) {
-      setError("An error occurred. Please try again.");
+      await login(email, password);
+      navigate("/dashboard");
+    } catch (err: any) {
+      setError(err.message || "An error occurred. Please try again.");
       console.error("Login error:", err);
     }
   };
