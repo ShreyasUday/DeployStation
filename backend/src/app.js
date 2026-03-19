@@ -19,4 +19,7 @@ app.use("/api/auth", authRoutes)
 app.use("/api/github", githubRoutes)
 app.use("/api/projects", projectRoutes)
 
+// Serve deployed projects
+app.use("/deployments", express.static("deployments"))
+
 export default app
