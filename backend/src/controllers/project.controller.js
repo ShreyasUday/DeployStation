@@ -1,5 +1,4 @@
 import * as projectServices from "../services/project.services.js"
-import { triggerBuild } from "../services/build.services.js"
 
 export const createProject = async (req, res) => {
     try {
@@ -10,10 +9,6 @@ export const createProject = async (req, res) => {
             repoURL,
             default_branch
         })
-        
-        // Fire and forget build for now
-        triggerBuild(project.id).catch(err => console.error("Auto-build failed:", err));
-
         return res.status(200).json({ project })
     } catch (error) {
         return res.status(500).json({ error: error.message })
