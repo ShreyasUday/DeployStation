@@ -2,9 +2,6 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useAuth } from "../context/AuthContext";
 
-// Replace with data from your backend API
-const demoProjects: { id: string; name: string; url: string; status: string }[] = [];
-
 export default function Dashboard() {
   const [projects, setProjects] = useState<any[]>([]);
   const [loadingProjects, setLoadingProjects] = useState(false);
@@ -17,6 +14,9 @@ export default function Dashboard() {
 
   useEffect(() => {
     fetchProjects();
+    // Poll every 3 seconds to update the status in background
+    const interval = setInterval(fetchProjects, 3000);
+    return () => clearInterval(interval);
   }, []);
 
   useEffect(() => {
@@ -34,7 +34,9 @@ export default function Dashboard() {
   }, [user]);
 
   const fetchProjects = async () => {
-    setLoadingProjects(true);
+    // Only show the loading spinner if we don't have any projects yet (first load)
+    if (projects.length === 0) setLoadingProjects(true);
+    
     try {
       const res = await fetch("http://localhost:3000/api/projects", {
         credentials: "include"
@@ -172,14 +174,18 @@ export default function Dashboard() {
               <div key={project.id} className="card project-card">
                 <div>
                   <h3 style={{ margin: "0 0 8px 0" }}>{project.repo_name}</h3>
-                  <a 
-                    href={`http://localhost:3000/deployments/${project.id}/`} 
-                    target="_blank" 
-                    rel="noreferrer" 
-                    style={{ color: "var(--accent)", fontSize: "0.9rem" }}
-                  >
-                    Visit Site
-                  </a>
+                  {project.status === 'live' && project.port ? (
+                    <a 
+                      href={`http://localhost:${project.port}`} 
+                      target="_blank" 
+                      rel="noreferrer" 
+                      style={{ color: "var(--accent)", fontSize: "0.9rem" }}
+                    >
+                      Visit Site
+                    </a>
+                  ) : (
+                    <span style={{ color: "var(--text-muted)", fontSize: "0.9rem" }}>Visit Site (Pending)</span>
+                  )}
                 </div>
                 <span className={`status-badge status-${project.status === 'live' ? 'live' : project.status === 'failed' ? 'failed' : 'pending'}`}>
                   {project.status.charAt(0).toUpperCase() + project.status.slice(1)}

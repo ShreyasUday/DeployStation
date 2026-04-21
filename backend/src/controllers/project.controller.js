@@ -1,4 +1,5 @@
 import * as projectServices from "../services/project.services.js"
+import * as buildServices from "../services/build.service.js"
 
 export const createProject = async (req, res) => {
     try {
@@ -9,6 +10,8 @@ export const createProject = async (req, res) => {
             repoURL,
             default_branch
         })
+        buildServices.deployProject(project.id).catch(err => console.error(err))
+
         return res.status(200).json({ project })
     } catch (error) {
         return res.status(500).json({ error: error.message })

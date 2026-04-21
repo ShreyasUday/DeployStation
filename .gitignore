@@ -8,6 +8,7 @@ node_modules/
 # =====================
 .env
 .env.*
+!.env.example
 backend/.env
 
 # =====================
@@ -33,5 +34,3 @@ my-app/dist/
 # =====================
 .DS_Store
 Thumbs.db
-
-Untitled-1.json
