@@ -1,19 +1,18 @@
+# DeployStation
+
+🚀 A Docker-based PaaS platform for deploying Node.js applications directly from GitHub — inspired by Heroku-style workflows.
+
+Designed to automate application deployment, containerization, and lifecycle management in a self-hosted environment.
+
+## 💡 Motivation
+
+Deploying applications manually involves multiple steps — environment setup, dependency management, and runtime configuration.
+
+DeployStation was built to simplify this into a single workflow, inspired by platforms like Heroku, while giving full control over the underlying infrastructure.
+
 <p align="center">
-  <h1 align="center">🚀 DeployStation</h1>
-  <p align="center">
-    A self-hosted Platform-as-a-Service for deploying Node.js applications via Docker containers.
-    <br />
-    Built with <strong>React</strong> · <strong>Node.js</strong> · <strong>PostgreSQL</strong> · <strong>Docker</strong>
-  </p>
+  Full-stack system built using <strong>React</strong> · <strong>Node.js</strong> · <strong>PostgreSQL</strong> · <strong>Docker</strong>
 </p>
-
----
-
-## 📌 Overview
-
-**DeployStation** is a web-based deployment platform designed to simplify how Node.js applications are built and run. Users connect their GitHub account, select a repository, and deploy it — the platform clones the repo, builds a Docker image, runs it in an isolated container, and exposes it on a dynamic port.
-
-Think of it as a **self-hosted mini-Heroku** for Node.js apps.
 
 ---
 
@@ -23,7 +22,7 @@ Think of it as a **self-hosted mini-Heroku** for Node.js apps.
 |---|---|
 | **GitHub OAuth Integration** | Sign up/login via GitHub, or connect GitHub to an existing account. Securely stores OAuth tokens for repo access. |
 | **Repository Selection** | Fetches the user's GitHub repositories via the GitHub API. Users select which repo to deploy from the dashboard. |
-| **Docker-Based Build Pipeline** | Each deployment clones the selected repo into a Docker container, installs dependencies, builds the project, and runs it in isolation. |
+| **Docker-Based Build Pipeline** | Handles cloning repositories, building Docker images, and running applications in isolated containers (workflow under active refinement) |
 | **Automatic Port Binding** | Containers are assigned dynamic host ports. A runtime patch (`patch.cjs`) transparently rewrites `localhost`/`127.0.0.1` bindings to `0.0.0.0` so containerized apps are accessible externally. |
 | **Deployment Status Tracking** | Projects track status through `pending → building → live / failed`. The dashboard polls for real-time status updates. |
 | **JWT Cookie Authentication** | Secure, httpOnly cookie-based auth with bcrypt password hashing. No localStorage tokens. |
@@ -31,7 +30,14 @@ Think of it as a **self-hosted mini-Heroku** for Node.js apps.
 
 ---
 
-## 🏗️ System Architecture
+## 🏗️ Architecture Overview
+
+- **Backend API**: Handles user requests, authentication, and deployment triggers
+- **Deployment Engine**: Clones repositories and manages Docker build/run lifecycle
+- **Database (PostgreSQL)**: Stores users, projects, and deployment metadata
+- **Container Layer (Docker)**: Ensures isolated runtime environments for each deployment
+
+### System Diagram
 
 ```
 ┌─────────────────────────────────────────────────────────┐
@@ -68,9 +74,11 @@ Think of it as a **self-hosted mini-Heroku** for Node.js apps.
                     └─────────────┘
 ```
 
-### 🧠 Design Decisions
+---
 
-- **Container Isolation**: Each deployed application runs in its own Docker container, preventing dependency conflicts and providing process-level isolation.
+## 🧠 Design Decisions
+
+- **Why Docker**: Docker was chosen to ensure isolation between user deployments and reproducible environments — each app runs in its own container with no shared state.
 - **Runtime Patching**: Node.js apps commonly bind to `localhost`, which is unreachable from outside a container. DeployStation injects a `--require` preload script that monkey-patches `net.Server.listen()` to bind to `0.0.0.0` instead — transparent to the deployed app.
 - **Smart Entry Point Detection**: The builder script auto-detects how to start the app by checking `npm start`, `index.js`, `server.js`, `app.js`, and `src/` variants in order of priority.
 - **Cookie-Based Auth**: JWT tokens are stored in httpOnly cookies (not localStorage), preventing XSS-based token theft. The frontend never touches the raw token.
@@ -264,12 +272,13 @@ Dashboard polls & shows "Live" badge + visit link
 
 ## 🚧 Current Status & Roadmap
 
-The core backend, frontend, and deployment workflow are implemented and functional.
+Core backend and deployment workflow are implemented.
+Currently improving Docker build reliability and container lifecycle stability.
 
 **Implemented ✅**
 - Full authentication system (email/password + GitHub OAuth)
 - GitHub repository fetching and selection
-- Docker image build and container orchestration pipeline
+- Docker image build and container lifecycle management
 - Real-time deployment status tracking
 - Protected frontend routes with auth state management
 
